@@ -41,7 +41,7 @@ class AirQualityMonitor:
         current_time = datetime.now().strftime('%d.%m.%Y %H:%M')
         
         return (
-            f"ДАННЫЕ О КАЧЕСТВЕ ВОЗДУХА\n"
+            f"{'-'*50}\nДАННЫЕ О КАЧЕСТВЕ ВОЗДУХА\n{'-'*50}\n"
             f"Актуально на: {current_time}\n"
             f"Координаты: {self.lat}, {self.lng}\n\n"
             f"🔹 CO (угарный газ): {station.get('CO', 'N/A')} ppm\n"
