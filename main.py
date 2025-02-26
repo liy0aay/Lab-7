@@ -21,7 +21,7 @@ class WeatherAPI:
         self.city = city
         self.country = country
         self.language = lg
-        self.token = WeatherAPI.token  
+        self.token = WeatherAPI.token  # Использует API-ключ
 
     def request_details(self):
         params = {
@@ -31,6 +31,10 @@ class WeatherAPI:
         }
         url = f'{self.base_url}{self.coord_url}'
         details = requests.get(url, params=params)
+
+        if details.status_code != 200 or not details.json():  # Проверка наличия данных
+            print("Ошибка получения координат!")
+            return
         
         data = details.json()[0]
         self.retrieve_coordinates(data)
@@ -57,15 +61,17 @@ class WeatherAPI:
         self.weather = weather.json()
 
     def string_weather(self):
-       
-        city = self.weather['name']
-        temp = self.weather['main']['temp']
-        humidity = self.weather['main']['humidity']
-        pressure = self.weather['main']['pressure']
-        weather = self.weather['weather'][0]
-        details = weather['description'].capitalize()
-        return f'{city} {temp}°C\n{details}\nВлажность: {humidity}%\nДавление: {pressure} гПа'
-   
+        try:
+            city = self.weather['name']
+            temp = self.weather['main']['temp']
+            humidity = self.weather['main']['humidity']
+            pressure = self.weather['main']['pressure']
+            weather = self.weather['weather'][0]
+            details = weather['description'].capitalize()
+            return f'{city} {temp}°C\n{details}\nВлажность: {humidity}%\nДавление: {pressure} hPa'
+        except KeyError:
+            return "Ошибка в данных о погоде!"
+
     def show(self):
         data = self.string_weather().split('\n')
         title, details = data[0], "\n".join(data[1:])
