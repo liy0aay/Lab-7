@@ -1,8 +1,8 @@
 import requests
 import platform
-import webbrowser
-import os
-from datetime import datetime
+import webbrowser # позволяет открывать страницы в браузере
+import os # для взаимодействия с файлами ос 
+from datetime import datetime 
 
 NASA_API_KEY = "WADFmQPvQE3J5nLjGil5UGSf9J8p2XdFlcjoondO"
 OS = platform.system()
@@ -14,6 +14,7 @@ elif OS == "Darwin":
 
 
 class NASA_API:
+    
     api_url = "https://api.nasa.gov/planetary/apod"
 
     def __init__(self, api_key=NASA_API_KEY):
@@ -29,7 +30,7 @@ class NASA_API:
     
     def save_image(self):
     
-        img_data = requests.get(img_url).content
+        img_data = requests.get(self.data["url"]).content
         img_path = os.path.join(os.getcwd(), "nasa_apod.jpg")
 
         with open(img_path, "wb") as img_file:
